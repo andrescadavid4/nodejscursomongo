@@ -1,0 +1,36 @@
+  
+{{>header}}
+<div class="container">
+  <h2>Inscripción a Curso</h2>
+  <br>
+  <p>Ingrese la siguiente información</p>
+  <form action="/ingresocurso" method="post">
+    <div class="form-group">
+      <div class="row">
+        <div class="col">
+          <label >Nombre</label>
+          <input type="text"  class="form-control"  name="nombre" placeholder="Nombre del aspirante" required><br>
+        </div>
+            {{{ddlcursos listado}}}
+        <div class="col">
+          <label >Documento de indentidad</label>
+          <input type="number"  class="form-control"  name="documento" placeholder="Ingrese Documento" required><br>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label >Correo</label>
+          <input type="text" class="form-control" name="correo" placeholder="Ingrese Correo" required>
+        </div>
+        <div class="col">
+          <label >Teléfono</label>
+          <input type="number" class="form-control" name="telefono" placeholder="Ingrese Teléfono" required>
+        </div>
+      </div>
+      <br>
+      <button class="btn btn-dark">Registrar</button>
+    </div>
+ </form>	
+</div>
+  {{>footer}}
+  

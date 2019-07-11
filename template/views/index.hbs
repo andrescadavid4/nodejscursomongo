@@ -1,0 +1,46 @@
+  
+{{>header}}
+<div class="container">
+  <h2>Registro de usuarios</h2>
+  <br>
+  <p>Ingrese sus datos en el siguiente formulario</p>
+  <form action="/" method="post">
+    <div class="form-group">
+      <div class="row">
+        <div class="col">
+          <label >Documento de Identidad</label>
+          <input type="number"  class="form-control"  name="documento" placeholder="Documento de Identidad" required><br>
+        </div>
+        <div class="col">
+          <label >Nombre</label>
+          <input type="text"  class="form-control"  name="nombre" placeholder="Nombre de usuario" required><br>
+        </div>
+        <div class="col">
+          <label >Contraseña</label>
+          <input type="text"  class="form-control"  name="password" placeholder="Contraseña" required><br>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label >Correo</label>
+          <input type="text" class="form-control" name="correo" placeholder="Ingrese Correo" required>
+        </div>
+        <div class="col">
+          <label >Teléfono</label>
+          <input type="number" class="form-control" name="telefono" placeholder="Ingrese Teléfono" required>
+        </div>
+        <div class="col">
+          <label >Seleccione Usuario</label>
+          <select name="rol" class="form-control" required>
+            <option value="aspirante">Aspirante</option>
+            <option value="coordinador">Coordinador</option>
+          </select>
+        </div>
+      </div>
+      <br>
+      <button class="btn btn-dark">Registrar</button>
+    </div>
+ </form>	
+</div>
+  {{>footer}}
+  
