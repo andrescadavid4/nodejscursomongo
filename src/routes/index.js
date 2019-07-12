@@ -1,4 +1,5 @@
 const express = require('express')
+const multer  = require('multer')
 const app = express ()
 const path = require('path')
 const hbs = require ('hbs')
@@ -24,7 +25,34 @@ app.get('/', (req, res ) => {
 	})	
 });
 
-app.post('/', (req, res ) => {
+/* var storage = multer.diskStorage({
+	destination: function (req, file, cb) {
+	  cb(null, 'public/uploads')
+	},
+	filename: function (req, file, cb) {
+	  cb(null, 'avatar' + req.body.nombre + path.extname(file.originalname))
+	}
+  }) */
+   
+//   var upload = multer({ 
+// 	  limits: {
+// 		  fileSize : 10000000
+// 		},
+// 		fileFilter (req, file, cb) {
+// 			if(!file.originalname.match(/\.(jpg|png|jpeg)$/)){
+// 				return cb(new Error('No es un archivo valido'))
+// 			}
+// 			// To accept the file pass `true`, like so:
+// 			cb(null, true)
+		   
+// 			// You can always pass an error if something goes wrong:
+			
+		   
+// 		  }
+// 	})
+
+app.post('/', upload.single('archivo'), (req, res ) => {
+	console.log(req.file)
 
 	let estudiante = new Estudiante ({
 		nombre : req.body.nombre,
@@ -32,7 +60,8 @@ app.post('/', (req, res ) => {
 		correo : req.body.correo,
 		telefono : 	req.body.telefono,
 		rol : req.body.rol,
-		password : bcrypt.hashSync(req.body.password, 10)
+		password : bcrypt.hashSync(req.body.password, 10),
+		avatar : req.file.buffer
 		
 	})
 	
@@ -166,6 +195,19 @@ app.get('/vercursos', (req,res) => {
 	})
 })
 
+app.get('/verusuarios', (req,res) => {
+
+	Estudiante.find({},(err,respuesta)=>{
+		if (err){
+			return console.log(err)
+		}
+
+		res.render ('verusuarios',{
+			listado : respuesta
+		})
+	})
+})
+
 app.post('/vercursos', (req, res) => {
 	
 	Curso.findOneAndUpdate({idcurso : req.body.idCurso}, req.body, {new : true, runValidators: true, context: 'query' }, (err, resultados) => {
@@ -240,7 +282,7 @@ app.post('/actualizar', (req, res) => {
 
 app.post('/eliminar', (req, res) => {
 	
-	Curso.findOneAndDelete({idCurso : req.body.idcurso}, req.body, (err, resultados) => {
+	Estudiante.findOneAndDelete({documento : req.body.documento}, req.body, (err, resultados) => {
 		if (err){
 			return console.log(err)
 		}
@@ -253,7 +295,7 @@ app.post('/eliminar', (req, res) => {
 		}
 
 		res.render ('eliminar', {
-			nombre : resultados.nombre			
+			nombre : resultados.nombre		
 		})
 	})	
 })
@@ -278,12 +320,14 @@ app.post('/ingresar', (req, res) => {
 			req.session.usuario = resultados._id	
 			req.session.nombre = resultados.nombre
 			req.session.rol = resultados.rol
-			rol = resultados.rol
+			avatar = resultados.avatar.toString('base64')
+
 		if(req.session.rol == 'aspirante'){
 			return res.render('ingresar', {
 				mensaje : "Bienvenido " + resultados.nombre,
 				nombre : resultados.nombre,
-				sesionaspirante : true,						
+				sesionaspirante : true,	
+				avatar: avatar					
 				 })
 		}else{
 			// let token = jwt.sign({
@@ -296,7 +340,8 @@ app.post('/ingresar', (req, res) => {
 			res.render('ingresar', {
 				mensaje : "Bienvenido " + resultados.nombre,
 				nombre : resultados.nombre,
-				sesioncoordinador : true						
+				sesioncoordinador : true,	
+				avatar :avatar					
 				 })
 		}
 

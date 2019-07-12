@@ -182,3 +182,32 @@ hbs.registerHelper('listarcoordinadortedetinsc', (listado) =>{
     texto = texto + '</div>';
     return texto;
 });
+
+//////////////Ver personas //////////////
+////////////// Cursos Coordinador //////////////////
+hbs.registerHelper('listarusuarios', (listado) => {
+    let texto = `	<form action="/eliminar" method="post">
+            <table class='table table-striped table-hover'> 
+                    <thead class='thead-dark'>
+                    <th>Documento</th>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Teléfono</th>
+                    <th>Rol</th>
+                    </thead>
+                    <tbody>`;
+        listado.forEach(curso =>{
+            texto = texto + 
+                    `<tr>
+                    <td> ${curso.documento} </td>
+                    <td> ${curso.nombre} </td>
+                    <td> ${curso.correo}</td>
+                    <td> ${curso.telefono} </td>
+                    <td> ${curso.rol} </td>
+                    <td><button class="btn btn-danger" name="documento" value="${curso.documento}">Eliminar</button></td>
+                    
+                    </tr> `;
+        })
+        texto = texto + '</tbody> </table></form>';	
+        return texto;
+    });
