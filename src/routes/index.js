@@ -50,7 +50,7 @@ app.get('/', (req, res ) => {
 		   
 // 		  }
 // 	})
-
+var upload = multer({})
 app.post('/', upload.single('archivo'), (req, res ) => {
 	console.log(req.file)
 
